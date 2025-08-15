@@ -339,6 +339,18 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'Prompt',
+      label: 'Prompt',
+      icon: 'i-lucide-sparkles',
+      to: accountScopedRoute('saved_prompts_list'),
+    },
+    {
+      name: 'Rag',
+      label: 'Rag',
+      icon: 'i-lucide-database',
+      to: accountScopedRoute('rag_page'),
+    },
+    {
       name: 'Portals',
       label: t('SIDEBAR.HELP_CENTER.TITLE'),
       icon: 'i-lucide-library-big',

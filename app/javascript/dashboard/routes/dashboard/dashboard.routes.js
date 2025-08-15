@@ -8,6 +8,8 @@ import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
 import campaignsRoutes from './campaigns/campaigns.routes';
 import { routes as captainRoutes } from './captain/captain.routes';
+import promptRoutes from './prompt/prompt.routes';
+import ragRoutes from './rag/rag.routes';
 import AppContainer from './Dashboard.vue';
 import Suspended from './suspended/Index.vue';
 
@@ -24,6 +26,8 @@ export default {
         ...contactRoutes,
         ...searchRoutes,
         ...notificationRoutes,
+        ...promptRoutes.routes,
+        ...ragRoutes.routes,
         ...helpcenterRoutes.routes,
         ...campaignsRoutes.routes,
       ],

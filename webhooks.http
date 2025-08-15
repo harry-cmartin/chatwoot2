@@ -1,0 +1,130 @@
+### Enviar arquivo para base
+
+POST https://anzol.encha.top/webhook/26f6e157-82fc-417a-931c-d5e8a085da6c
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="userid"
+
+1
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="fileid"
+
+gfnvjkvb
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="File"; filename="teste_1.pdf"
+Content-Type: application/pdf
+
+< ../public/teste_1.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+
+
+### Listar aqruivos da base
+
+POST https://anzol.encha.top/webhook/d7263f61-3852-4824-9871-955f4fac03d8
+Content-Type: application/json
+
+{
+    "user":{
+        "id":"1"
+    }
+}
+
+### Excluir arquivo da base
+
+POST https://anzol.encha.top/webhook/cebbada7-d827-4d15-93da-96b0aa492e37
+Content-Type: application/json
+
+{
+    "File":{
+        "id":"1"
+    }
+}
+
+### Enviar mensagem para IA do Rag
+
+POST https://anzol.encha.top/webhook/5cbbd267-7ae4-49fd-8324-fcd67ab2a108
+Content-Type: application/json
+
+{
+    "user":{
+        "id":"1"
+    },
+    "Message":{
+        "Content":"quantop é 2 + 2?"
+    },
+    "Prompt":{
+        "Content":"Você é kira, atendente da encha oficina mecânica"
+    }
+}
+
+
+### Arquivos que continuam
+
+POST https://anzol.encha.top/webhook/52148aae-27fa-44e8-a92c-cc4bc27ce9a8
+Content-Type: application/json
+
+{
+    "continueFiles":[
+        {"id":"2"}
+    ]
+}
+
+
+### Enviar arquivo para base de comparaçao 
+
+POST https://anzol.encha.top/webhook/5bce5cc2-9d69-4df9-a48f-a87ade751bcc
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="userid"
+
+1
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="fileid"
+
+gfnvjkvb
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="File"; filename="teste_1.pdf"
+Content-Type: application/pdf
+
+< ../public/teste_1.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+### Substituir 
+
+POST https://anzol.encha.top/webhook/0240cb84-b93c-4f50-a04e-d5875e29654d
+Content-Type: application/json
+
+{
+    "user":{
+        "id":"1"
+    },
+    "replaceall":true
+}
+
+
+### Enviar mensagem rag compara
+
+POST https://anzol.encha.top/webhook/48c816a2-ac46-4a94-8f19-01331ae3d2ef
+Content-Type: application/json
+
+{
+    "user":{
+        "id":"1"
+    },
+    "Message":{
+        "Content":"o que tem na sua base de dados?"
+    },
+    "Prompt":{
+        "Content":"Você é kira, atendente da encha oficina mecânica"
+    }
+}
+
+
+### url: http://localhost:3000
+###user_name: john@acme.inc
+###password: Password1!

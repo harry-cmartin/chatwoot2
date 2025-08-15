@@ -985,6 +985,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_14_104358) do
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
   end
 
+  create_table "saved_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "nome", null: false
+    t.text "conteudo", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_saved_prompts_on_user_id"
+  end
+
   create_table "sla_events", force: :cascade do |t|
     t.bigint "applied_sla_id", null: false
     t.bigint "conversation_id", null: false
@@ -1134,6 +1143,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_14_104358) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "saved_prompts", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

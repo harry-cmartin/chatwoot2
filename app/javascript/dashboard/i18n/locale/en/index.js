@@ -26,6 +26,8 @@ import integrations from './integrations.json';
 import labelsMgmt from './labelsMgmt.json';
 import login from './login.json';
 import macros from './macros.json';
+import prompt from './prompt.json';
+import rag from './rag.json';
 import report from './report.json';
 import resetPassword from './resetPassword.json';
 import search from './search.json';
@@ -47,7 +49,9 @@ export default {
   ...campaign,
   ...cannedMgmt,
   ...chatlist,
+  ...rag,
   ...components,
+  ...prompt,
   ...contact,
   ...contactFilters,
   ...conversation,
