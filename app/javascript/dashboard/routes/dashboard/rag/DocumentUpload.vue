@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import axios from 'axios';
 import { generateRandomString } from 'widget/helpers/utils';
 
@@ -18,6 +18,19 @@ const uploading = ref(false);
 const error = ref(null);
 const dragOver = ref(false);
 const imageDragOver = ref(false);
+
+const imagePreviewUrl = computed(() => {
+  if (!selectedImage.value) return '';
+  try {
+    if (typeof window !== 'undefined' && window.URL && window.URL.createObjectURL) {
+      return window.URL.createObjectURL(selectedImage.value);
+    }
+    return '';
+  } catch (e) {
+    console.warn('Error creating object URL:', e);
+    return '';
+  }
+});
 
 const handleFileSelect = (event) => {
   const file = event.target.files[0];
@@ -91,17 +104,22 @@ const handleUpload = async () => {
     return;
   }
 
+  if (!selectedImage.value) {
+    error.value = 'Por favor, selecione uma imagem';
+    return;
+  }
+
   try {
     uploading.value = true;
     error.value = null;
 
     const formData = new FormData();
-    formData.append('userid', '1');
-    formData.append('fileid', generateRandomString());
-    formData.append('File', selectedFile.value);
+    formData.append('archive', selectedFile.value);
+    formData.append('photo', selectedImage.value);
+    formData.append('user_id', '12312415');
 
     const response = await axios.post(
-      'https://anzol.encha.top/webhook/26f6e157-82fc-417a-931c-d5e8a085da6c',
+      'https://anzol.encha.com.br/webhook/14119839-b401-4fc8-af67-36f1250fc028',
       formData,
       {
         headers: {
@@ -287,7 +305,7 @@ const getFileIcon = (filename) => {
                   <!-- Image Preview -->
                   <div class="w-full h-24 bg-n-alpha-2 rounded-lg flex items-center justify-center overflow-hidden">
                     <img 
-                      :src="selectedImage ? URL.createObjectURL(selectedImage) : ''"
+                      :src="imagePreviewUrl"
                       :alt="selectedImage?.name"
                       class="max-w-full max-h-full object-contain"
                     >
@@ -338,7 +356,7 @@ const getFileIcon = (filename) => {
             <button
               class="inline-flex items-center gap-2 px-4 py-2 bg-n-green-9 text-white rounded-lg hover:bg-n-green-10 focus:bg-n-green-10 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               @click="handleUpload"
-              :disabled="!selectedFile || uploading"
+              :disabled="!selectedFile || !selectedImage || uploading"
             >
               <div v-if="uploading" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
               <span>{{ uploading ? 'Enviando...' : 'Enviar' }}</span>

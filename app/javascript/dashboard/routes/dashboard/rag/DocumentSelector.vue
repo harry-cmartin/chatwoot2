@@ -26,10 +26,9 @@ const fetchDocuments = async () => {
   error.value = '';
   
   try {
-    const response = await axios.post('https://anzol.encha.top/webhook/d7263f61-3852-4824-9871-955f4fac03d8', {
-      user: {
-        id: "1"
-      }
+    const response = await axios.post('https://anzol.encha.com.br/webhook/2096955d-47b9-4260-a828-f6cd5a5b3223', {
+   
+    "user_id":"12312415"
     });
     
     documents.value = response.data || [];

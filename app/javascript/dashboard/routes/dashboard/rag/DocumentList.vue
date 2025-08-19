@@ -27,9 +27,11 @@ const fetchDocuments = async () => {
     loading.value = true;
     error.value = null;
     
-    const response = await axios.post('https://anzol.encha.top/webhook/d7263f61-3852-4824-9871-955f4fac03d8', {
-      user: {
-        id: "1"
+    const response = await axios.post('https://anzol.encha.com.br/webhook/2096955d-47b9-4260-a828-f6cd5a5b3223', {
+      "user_id": "12312415"
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
       }
     });
     
@@ -88,17 +90,20 @@ const formatFileSize = (bytes) => {
   return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
 };
 
-const handleDeleteDocument = async (documentId) => {
-  if (!documentId) return;
+const handleDeleteDocument = async (documentTitle) => {
+  if (!documentTitle) return;
   
   if (!confirm('Tem certeza que deseja excluir este documento?')) {
     return;
   }
 
   try {
-    const response = await axios.post('https://anzol.encha.top/webhook/cebbada7-d827-4d15-93da-96b0aa492e37', {
-      File: {
-        id: documentId.toString()
+    const response = await axios.post('https://anzol.encha.com.br/webhook/0e52f550-11fa-4288-9a69-c5d569b129dd', {
+      "user_id": "12312415",
+      "file_title": documentTitle
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
       }
     });
 
@@ -123,6 +128,27 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('pt-BR');
   } catch {
     return dateString;
+  }
+};
+
+const getImageSrc = (base64Data) => {
+  if (!base64Data) return '';
+  
+  // Detecta o tipo de imagem pelos primeiros bytes do base64
+  const firstChars = base64Data.substring(0, 10);
+  
+  // Verifica assinatura de diferentes formatos
+  if (firstChars.startsWith('iVBORw0KGg')) {
+    return `data:image/png;base64,${base64Data}`;
+  } else if (firstChars.startsWith('/9j/')) {
+    return `data:image/jpeg;base64,${base64Data}`;
+  } else if (firstChars.startsWith('R0lGODlh') || firstChars.startsWith('R0lGODdh')) {
+    return `data:image/gif;base64,${base64Data}`;
+  } else if (firstChars.startsWith('UklGR')) {
+    return `data:image/webp;base64,${base64Data}`;
+  } else {
+    // Fallback para PNG se não conseguir detectar
+    return `data:image/png;base64,${base64Data}`;
   }
 };
 </script>
@@ -197,9 +223,18 @@ const formatDate = (dateString) => {
               :key="doc.id || index"
               class="flex items-center gap-3 p-3 border border-n-alpha-3 rounded-lg hover:bg-n-alpha-2 transition-colors"
             >
-              <!-- Document Icon -->
-              <div class="w-10 h-10 bg-n-alpha-2 rounded-lg flex items-center justify-center text-xl flex-shrink-0">
-                {{ getDocumentIcon(doc.title) }}
+              <!-- Document Icon/Image -->
+              <div class="w-10 h-10 bg-n-alpha-2 rounded-lg flex items-center justify-center text-xl flex-shrink-0 overflow-hidden">
+                <img 
+                  v-if="doc.images" 
+                  :src="getImageSrc(doc.images)" 
+                  :alt="doc.title || 'Documento'"
+                  class="w-full h-full object-cover rounded-lg"
+                  @error="$event.target.style.display = 'none'"
+                />
+                <span v-else class="text-xl">
+                  {{ getDocumentIcon(doc.title) }}
+                </span>
               </div>
               
               <!-- Document Info -->
@@ -215,7 +250,7 @@ const formatDate = (dateString) => {
               <!-- Delete Button -->
               <button
                 class="w-8 h-8 flex items-center justify-center bg-n-ruby-9 text-white rounded-lg hover:bg-n-ruby-10 focus:bg-n-ruby-10 transition-colors flex-shrink-0"
-                @click="handleDeleteDocument(doc.id)"
+                @click="handleDeleteDocument(doc.title)"
                 title="Excluir documento"
               >
                 🗑️

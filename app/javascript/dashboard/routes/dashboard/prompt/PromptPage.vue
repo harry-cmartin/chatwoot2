@@ -157,7 +157,7 @@ const savePrompt = async (isCompareChat = false) => {
         }
       });
     } else {
-      // Cria novo prompt (não deveria acontecer nesta página, mas como fallback)
+      // Cria novo prompt ( mas como fallback)
       await savedPromptsAPI.create({
         saved_prompt: {
           nome: 'Novo Prompt',
